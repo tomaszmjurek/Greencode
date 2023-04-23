@@ -1,13 +1,15 @@
 package com.ing;
 
+import com.ing.transactions.TransactionsService;
 import com.ing.transactions.model.Account;
 import com.ing.transactions.model.Transaction;
-import com.ing.transactions.TransactionsService;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+@MicronautTest
 public class TransactionsServiceTest {
 
     private final TransactionsService transactionsService = new TransactionsService();
@@ -62,6 +64,4 @@ public class TransactionsServiceTest {
 
         Assertions.assertEquals(expectedReport, report);
     }
-
-    // test validation
 }
