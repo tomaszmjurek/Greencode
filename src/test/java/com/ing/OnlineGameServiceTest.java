@@ -1,8 +1,8 @@
 package com.ing;
 
-import com.ing.onlinegame.Clan;
+import com.ing.onlinegame.model.Clan;
 import com.ing.onlinegame.OnlineGameService;
-import com.ing.onlinegame.Players;
+import com.ing.onlinegame.model.Players;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

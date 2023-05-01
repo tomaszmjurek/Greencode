@@ -14,14 +14,15 @@ import java.util.*;
 @Singleton
 public class TransactionsService {
 
-    private final int MAX_TRANSACTIONS_SIZE = 100000;
     private final Map<String, Account> accountsMap = new HashMap<>();
 
     public List<Account> generateDailyReport(List<Transaction> transactions) {
-        log.info("Generating daily report for {} transactions", transactions.size());
+        var transactionsSize = transactions.size();
+        log.info("Generating daily report for {} transactions", transactionsSize);
         var timestamp = System.currentTimeMillis();
 
-        if (transactions.size() > MAX_TRANSACTIONS_SIZE) throw new ValidationException("Max transactions size cannot exceed " + MAX_TRANSACTIONS_SIZE);
+        int MAX_TRANSACTIONS_SIZE = 100000;
+        if (transactionsSize > MAX_TRANSACTIONS_SIZE) throw new ValidationException("Max transactions size cannot exceed " + MAX_TRANSACTIONS_SIZE);
         for (var t : transactions) {
             validateTransaction(t);
             updateDebitAccount(t.getDebitAccount(), t.getAmount());

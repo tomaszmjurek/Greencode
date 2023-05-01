@@ -1,5 +1,7 @@
 package com.ing.onlinegame;
 
+import com.ing.onlinegame.model.Clan;
+import com.ing.onlinegame.model.Players;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;

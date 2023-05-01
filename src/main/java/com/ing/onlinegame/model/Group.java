@@ -1,4 +1,4 @@
-package com.ing.onlinegame;
+package com.ing.onlinegame.model;
 
 import lombok.*;
 

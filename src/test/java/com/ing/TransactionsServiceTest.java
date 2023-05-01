@@ -15,8 +15,7 @@ public class TransactionsServiceTest {
     private final TransactionsService transactionsService = new TransactionsService();
 
     @Test
-    void generateReport() {
-
+    void shouldGenerateReport() {
         var transactions = List.of(
                 Transaction.builder()
                         .debitAccount("32309111922661937852684864")

@@ -1,5 +1,8 @@
 package com.ing.onlinegame;
 
+import com.ing.onlinegame.model.Clan;
+import com.ing.onlinegame.model.Group;
+import com.ing.onlinegame.model.Players;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,16 +14,17 @@ public class OnlineGameService {
 
     private final List<List<Clan>> groups = new ArrayList<>();
     public List<List<Clan>> calculate(Players players) {
-        var clansWaiting = new LinkedList<>(sortClansByPointsAndPlayers(players.clans));
+        var timestamp = System.currentTimeMillis();
+        var clansWaiting = new LinkedList<>(sortClansByPointsAndPlayers(players.getClans()));
         log.info("Clans waiting to join: {}", clansWaiting);
 
         var iterator = clansWaiting.listIterator();
         var currentClan = iterator.next();
-        var currentGroup = new Group(players.groupCount);
+        var currentGroup = new Group(players.getGroupCount());
         boolean resetIteration = false;
         while (!clansWaiting.isEmpty()) {
-            log.info("Iteration state: current {} current {} final order {}", currentClan, currentGroup, groups);
-            if (currentGroup.fitsClan(currentClan.numberOfPlayers)) {
+//            log.info("Iteration state: current {} current {} final order {}", currentClan, currentGroup, groups); // todo remove after tests
+            if (currentGroup.fitsClan(currentClan.getNumberOfPlayers())) {
                 currentGroup.addClan(currentClan);
                 iterator.remove();
                 resetIteration = true;
@@ -28,7 +32,7 @@ public class OnlineGameService {
 
             if (currentGroup.isFull() || !iterator.hasNext()) {
                 groups.add(currentGroup.getClans());
-                currentGroup = new Group(players.groupCount);
+                currentGroup = new Group(players.getGroupCount());
                 resetIteration = true;
             }
 
@@ -40,6 +44,7 @@ public class OnlineGameService {
             if (iterator.hasNext()) currentClan = iterator.next();
         }
 
+        log.info("Order generated in: {}ms", System.currentTimeMillis() - timestamp);
         return groups;
     }
 
