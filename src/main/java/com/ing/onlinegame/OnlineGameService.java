@@ -23,7 +23,6 @@ public class OnlineGameService {
         var currentGroup = new Group(players.getGroupCount());
         boolean resetIteration = false;
         while (!clansWaiting.isEmpty()) {
-//            log.info("Iteration state: current {} current {} final order {}", currentClan, currentGroup, groups); // todo remove after tests
             if (currentGroup.fitsClan(currentClan.getNumberOfPlayers())) {
                 currentGroup.addClan(currentClan);
                 iterator.remove();

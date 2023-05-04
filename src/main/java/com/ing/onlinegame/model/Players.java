@@ -1,10 +1,14 @@
 package com.ing.onlinegame.model;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -12,10 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Introspected
 public class Players {
 
-    @Size(min = 1, max = 1000) // todo make validation work
+    @Min(1) @Max(1000)
     int groupCount;
-    @Size(max = 20000)
+    @Valid @Size(max = 20000)
     List<Clan> clans;
 }

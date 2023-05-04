@@ -3,7 +3,6 @@ package com.ing.transactions.model;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -20,19 +19,10 @@ public class Account {
     float balance;
 
     public Account(String account, int debitCount, int creditCount, float balance) {
-        validateAccount(account);
         this.account = account;
         this.debitCount = debitCount;
         this.creditCount = creditCount;
         this.balance = balance;
-    }
-
-    public Account(String account) {
-        validateAccount(account);
-        this.account = account;
-        this.debitCount = 0;
-        this.creditCount = 0;
-        this.balance = 0.0f;
     }
 
     public void decreaseBalance(float amount) {
@@ -51,9 +41,5 @@ public class Account {
 
     public void incrementDebitCount() {
         this.debitCount += 1;
-    }
-
-    private void validateAccount(String accountNumber) {
-        if (accountNumber.length() != 26) throw new ValidationException("Account number length is incorrect");
     }
 }

@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import lombok.AllArgsConstructor;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller("/onlinegame")
@@ -16,7 +17,7 @@ public class OnlineGameController {
     private final OnlineGameService onlineGameService;
 
     @Post("/calculate")
-    public List<List<Clan>> calculate(@Body Players players) {
+    public List<List<Clan>> calculate(@Valid @Body Players players) {
         return onlineGameService.calculate(players);
     }
 }

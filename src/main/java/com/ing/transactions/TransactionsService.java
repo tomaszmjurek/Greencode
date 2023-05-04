@@ -2,10 +2,8 @@ package com.ing.transactions;
 
 import com.ing.transactions.model.Account;
 import com.ing.transactions.model.Transaction;
-
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
-
 
 import javax.validation.ValidationException;
 import java.util.*;
@@ -22,9 +20,9 @@ public class TransactionsService {
         var timestamp = System.currentTimeMillis();
 
         int MAX_TRANSACTIONS_SIZE = 100000;
-        if (transactionsSize > MAX_TRANSACTIONS_SIZE) throw new ValidationException("Max transactions size cannot exceed " + MAX_TRANSACTIONS_SIZE);
+        if (transactionsSize > MAX_TRANSACTIONS_SIZE)
+            throw new ValidationException("Max transactions size cannot exceed " + MAX_TRANSACTIONS_SIZE);
         for (var t : transactions) {
-            validateTransaction(t);
             updateDebitAccount(t.getDebitAccount(), t.getAmount());
             updateCreditAccount(t.getCreditAccount(), t.getAmount());
         }
@@ -35,10 +33,6 @@ public class TransactionsService {
         return report;
     }
 
-    private void validateTransaction(Transaction t) {
-        if (t.getCreditAccount().length() != 26) throw new ValidationException("Credit account number " + t.getCreditAccount() + " has incorrect size");
-        if (t.getDebitAccount().length() != 26) throw new ValidationException("Debit account number " + t.getDebitAccount() + " has incorrect size");
-    }
     private void updateDebitAccount(String debitAccountNumber, float amount) {
         if (!accountsMap.containsKey(debitAccountNumber)) {
             accountsMap.put(debitAccountNumber, new Account(debitAccountNumber, 1, 0, -amount));

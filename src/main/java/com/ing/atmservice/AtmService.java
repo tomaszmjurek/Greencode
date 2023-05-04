@@ -11,11 +11,10 @@ import java.util.*;
 @Slf4j
 public class AtmService {
 
-    private final Map<Integer, List<Atm>> tasksOrdered = new HashMap<>(); // todo test processing time with global and local var
-
     public List<Atm> calculateOrder(List<Task> serviceTasks) {
         log.info("Calculating {} service tasks", serviceTasks.size());
         var timestamp = System.currentTimeMillis();
+        Map<Integer, List<Atm>> tasksOrdered = new HashMap<>();
 
         for (var task : serviceTasks) {
             int region = task.getRegion();
@@ -23,14 +22,14 @@ public class AtmService {
             List<Atm> regionAtms;
             if /* Processing new region */ (!tasksOrdered.containsKey(region)) {
                 regionAtms = new ArrayList<>();
-                regionAtms.add(atm); // sort? compare time
+                regionAtms.add(atm);
                 tasksOrdered.put(region, regionAtms);
             } /* Region already in the system */ else {
                 regionAtms = tasksOrdered.get(region);
-                Optional<Atm> any = regionAtms.stream().filter(a -> a.getAtmId() == atm.getAtmId()).findAny();
-                if /* Atm already in the system */ (any.isPresent()) {
-                    if /* New atm has more severe request type */ (atm.isHigherOrder(any.get())) {
-                        regionAtms.remove(any.get()); // not removing?
+                Optional<Atm> existingAtm = regionAtms.stream().filter(a -> a.getAtmId() == atm.getAtmId()).findAny();
+                if /* Atm already in the system */ (existingAtm.isPresent()) {
+                    if /* New atm has more severe request type */ (atm.isPreceding(existingAtm.get())) {
+                        regionAtms.remove(existingAtm.get());
                         regionAtms.add(atm);
                         tasksOrdered.put(region, regionAtms);
                     }
@@ -41,14 +40,18 @@ public class AtmService {
             }
         }
 
+        sortTasksByPriority(tasksOrdered);
+
+        var response =  tasksOrdered.values().stream().flatMap(Collection::stream).toList();
+        log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
+        return response;
+    }
+
+    private void sortTasksByPriority(Map<Integer, List<Atm>> tasksOrdered) {
         tasksOrdered.entrySet().forEach(entry -> {
             List<Atm> atms = entry.getValue();
             Collections.sort(atms);
             entry.setValue(atms);
         });
-
-        var response =  tasksOrdered.values().stream().flatMap(Collection::stream).toList();
-        log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
-        return response;
     }
 }

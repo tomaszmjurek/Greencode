@@ -6,6 +6,7 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.http.annotation.*;
 import lombok.AllArgsConstructor;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller("/transactions")
@@ -14,9 +15,8 @@ public class TransactionsController {
 
     private final TransactionsService transactionsService;
 
-    // todo map validation error on bad request
     @Post("/report")
-    public List<Account> report(@Body List<Transaction> reportRequest) {
+    public List<Account> report(@Valid @Body List<Transaction> reportRequest) {
         return transactionsService.generateDailyReport(reportRequest);
     }
 

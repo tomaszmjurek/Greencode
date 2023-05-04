@@ -3,21 +3,18 @@ package com.ing.atmservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class Atm implements Comparable<Atm> {
-    @Size(min = 1, max = 9999)
     int atmId;
-    @Size(min = 1, max = 9999)
     int region;
     @JsonIgnore
     Task.RequestType requestType;
 
-    public boolean isHigherOrder(Atm a) {
+    public boolean isPreceding(Atm a) {
         return this.requestType.getOrder() > a.requestType.getOrder();
     }
 

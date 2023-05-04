@@ -1,18 +1,22 @@
 package com.ing.atmservice.model;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.*;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Introspected
 public class Task {
-    @Size(min = 1, max = 9999)
+    @Min(1) @Max(9999)
     int region;
     RequestType requestType;
-    @Size(min = 1, max = 9999)
+    @Min(1) @Max(9999)
     int atmId;
 
     public enum RequestType {

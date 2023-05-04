@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import lombok.AllArgsConstructor;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class AtmServiceController {
     private final AtmService atmService;
 
     @Post("/calculateOrder")
-    public List<Atm> calculateOrder(@Body List<Task> serviceTasks) {
+    public List<Atm> calculateOrder(@Valid @Body List<Task> serviceTasks) {
         return atmService.calculateOrder(serviceTasks);
     }
 }
