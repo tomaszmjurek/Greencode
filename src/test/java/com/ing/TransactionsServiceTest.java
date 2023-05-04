@@ -12,6 +12,7 @@ import java.util.List;
 @MicronautTest
 public class TransactionsServiceTest {
 
+    // JMeter: infinite loop no problem for 3k lines json ~18000 and still going
     private final TransactionsService transactionsService = new TransactionsService();
 
     @Test

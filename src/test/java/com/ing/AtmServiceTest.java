@@ -11,6 +11,7 @@ import java.util.List;
 @MicronautTest
 public class AtmServiceTest {
 
+    // JMeter: infinite loop no problem for 50 lines json ~30000 and still going
     private final AtmService atmService = new AtmService();
 
     @Test

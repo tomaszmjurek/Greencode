@@ -12,12 +12,12 @@ import java.util.*;
 @Singleton
 public class OnlineGameService {
 
-    private final List<List<Clan>> groups = new ArrayList<>();
     public List<List<Clan>> calculate(Players players) {
         var timestamp = System.currentTimeMillis();
         var clansWaiting = new LinkedList<>(sortClansByPointsAndPlayers(players.getClans()));
         log.info("Clans waiting to join: {}", clansWaiting);
 
+        final List<List<Clan>> groups = new ArrayList<>();
         var iterator = clansWaiting.listIterator();
         var currentClan = iterator.next();
         var currentGroup = new Group(players.getGroupCount());

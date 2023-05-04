@@ -15,6 +15,7 @@ public class TransactionsService {
     private final Map<String, Account> accountsMap = new HashMap<>();
 
     public List<Account> generateDailyReport(List<Transaction> transactions) {
+        accountsMap.clear();
         var transactionsSize = transactions.size();
         log.info("Generating daily report for {} transactions", transactionsSize);
         var timestamp = System.currentTimeMillis();
