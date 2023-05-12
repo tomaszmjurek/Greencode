@@ -18,9 +18,9 @@ import javax.validation.constraints.Min;
 public class Clan {
 
     @Min(1) @Max(1000)
-    int numberOfPlayers;
+    private int numberOfPlayers;
     @Min(1) @Max(1000000)
-    int points;
+    private int points;
 
     @JsonIgnore
     public float getPerPlayerScore() {

@@ -1,7 +1,9 @@
 package com.ing.atmservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.Objects;
 
@@ -9,10 +11,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 public class Atm implements Comparable<Atm> {
-    int atmId;
-    int region;
+    private final int atmId;
+    private final int region;
     @JsonIgnore
-    Task.RequestType requestType;
+    private final Task.RequestType requestType;
 
     public boolean isPreceding(Atm a) {
         return this.requestType.getOrder() > a.requestType.getOrder();

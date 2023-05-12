@@ -13,10 +13,10 @@ import javax.validation.constraints.Min;
 @Introspected
 public class Task {
     @Min(1) @Max(9999)
-    int region;
+    private int region;
     RequestType requestType;
     @Min(1) @Max(9999)
-    int atmId;
+    private int atmId;
 
     public enum RequestType {
         FAILURE_RESTART(0), PRIORITY(1), SIGNAL_LOW(2), STANDARD(3);

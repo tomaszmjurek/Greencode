@@ -1,6 +1,7 @@
 package com.ing.transactions;
 
 import com.ing.transactions.model.Account;
+import com.ing.transactions.model.Accounts;
 import com.ing.transactions.model.Transaction;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -14,24 +15,23 @@ public class TransactionsService {
 
     private final Map<String, Account> accountsMap = new HashMap<>();
 
-    public List<Account> generateDailyReport(List<Transaction> transactions) {
-        accountsMap.clear();
+    public Accounts generateDailyReport(List<Transaction> transactions) {
         var transactionsSize = transactions.size();
         log.info("Generating daily report for {} transactions", transactionsSize);
         var timestamp = System.currentTimeMillis();
 
         int MAX_TRANSACTIONS_SIZE = 100000;
         if (transactionsSize > MAX_TRANSACTIONS_SIZE)
-            throw new ValidationException("Max transactions size cannot exceed " + MAX_TRANSACTIONS_SIZE);
+            throw new ValidationException("Max transactions size should not exceed " + MAX_TRANSACTIONS_SIZE);
         for (var t : transactions) {
             updateDebitAccount(t.getDebitAccount(), t.getAmount());
             updateCreditAccount(t.getCreditAccount(), t.getAmount());
         }
 
-        var report = accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList();
-
+        var accounts = new Accounts(accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList());
+        accountsMap.clear();
         log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
-        return report;
+        return accounts;
     }
 
     private void updateDebitAccount(String debitAccountNumber, float amount) {

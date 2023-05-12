@@ -1,6 +1,7 @@
 package com.ing.atmservice;
 
 import com.ing.atmservice.model.Atm;
+import com.ing.atmservice.model.Order;
 import com.ing.atmservice.model.Task;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import java.util.*;
 @Slf4j
 public class AtmService {
 
-    public List<Atm> calculateOrder(List<Task> serviceTasks) {
+    public Order calculateOrder(List<Task> serviceTasks) {
         log.info("Calculating {} service tasks", serviceTasks.size());
         var timestamp = System.currentTimeMillis();
         Map<Integer, List<Atm>> tasksOrdered = new HashMap<>();
@@ -42,9 +43,9 @@ public class AtmService {
 
         sortTasksByPriority(tasksOrdered);
 
-        var response =  tasksOrdered.values().stream().flatMap(Collection::stream).toList();
+        var order = new Order(tasksOrdered.values().stream().flatMap(Collection::stream).toList());
         log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
-        return response;
+        return order;
     }
 
     private void sortTasksByPriority(Map<Integer, List<Atm>> tasksOrdered) {
