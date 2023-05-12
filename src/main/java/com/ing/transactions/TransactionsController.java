@@ -24,11 +24,4 @@ public class TransactionsController {
     public Accounts report(@Valid @Body List<Transaction> reportRequest) { // object: Transactions (unwrapped)
         return transactionsService.generateDailyReport(reportRequest);
     }
-
-    // todo remove after testing
-//    @Get("/transactions/{size}")
-//    public List<Transaction> generateInput(@Parameter @PathVariable("size") int size) {
-//        return transactionsService.generateInput(size);
-//    }
-
 }

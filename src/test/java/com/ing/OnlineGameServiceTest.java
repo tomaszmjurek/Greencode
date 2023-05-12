@@ -14,7 +14,6 @@ import java.util.List;
 @MicronautTest
 public class OnlineGameServiceTest {
 
-    // JMeter: infinite loop no problem for 44 lines json ~46000 average 0ms
     private final OnlineGameService onlineGameService = new OnlineGameService();
 
     @Test
