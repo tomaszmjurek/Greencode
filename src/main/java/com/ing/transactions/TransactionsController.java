@@ -1,6 +1,6 @@
 package com.ing.transactions;
 
-import com.ing.transactions.model.Accounts;
+import com.ing.transactions.model.Account;
 import com.ing.transactions.model.Transaction;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -21,7 +21,7 @@ public class TransactionsController {
     @Post("/report")
     @Operation(description = "Execute report", operationId = "report")
     @ApiResponse(responseCode = "200", description = "Successful operation")
-    public Accounts report(@Valid @Body List<Transaction> reportRequest) { // object: Transactions (unwrapped)
+    public List<Account> report(@Valid @Body List<Transaction> reportRequest) {
         return transactionsService.generateDailyReport(reportRequest);
     }
 }

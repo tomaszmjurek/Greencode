@@ -2,7 +2,6 @@ package com.ing.onlinegame;
 
 import com.ing.onlinegame.model.Clan;
 import com.ing.onlinegame.model.Group;
-import com.ing.onlinegame.model.Order;
 import com.ing.onlinegame.model.Players;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +15,12 @@ import java.util.List;
 @Singleton
 public class OnlineGameService {
 
-    public Order calculate(Players players) {
+    public List<List<Clan>> calculate(Players players) {
         var timestamp = System.currentTimeMillis();
         var clansWaiting = new LinkedList<>(sortClansByPointsAndPlayers(players.getClans()));
         log.info("Clans waiting to join: {}", clansWaiting);
 
-        final var order = new Order(new ArrayList<>());
+        final List<List<Clan>> groups = new ArrayList<>();
         var iterator = clansWaiting.listIterator();
         var currentClan = iterator.next();
         var currentGroup = new Group(players.getGroupCount());
@@ -34,7 +33,7 @@ public class OnlineGameService {
             }
 
             if (currentGroup.isFull() || !iterator.hasNext()) {
-                order.addGroup(currentGroup);
+                groups.add(currentGroup.getClans());
                 currentGroup = new Group(players.getGroupCount());
                 resetIteration = true;
             }
@@ -48,7 +47,7 @@ public class OnlineGameService {
         }
 
         log.info("Order generated in: {}ms", System.currentTimeMillis() - timestamp);
-        return order;
+        return groups;
     }
 
     private List<Clan> sortClansByPointsAndPlayers(List<Clan> unsorted) {

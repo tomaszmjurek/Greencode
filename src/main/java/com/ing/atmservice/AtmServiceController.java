@@ -1,6 +1,6 @@
 package com.ing.atmservice;
 
-import com.ing.atmservice.model.Order;
+import com.ing.atmservice.model.Atm;
 import com.ing.atmservice.model.Task;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -21,7 +21,7 @@ public class AtmServiceController {
     @Post("/calculateOrder")
     @Operation(description = "Calculates ATMs order for service team", operationId = "calculate")
     @ApiResponse(responseCode = "200", description = "Successful operation")
-    public Order calculateOrder(@Valid @Body List<Task> serviceTasks) { // object: ServiceTasks
+    public List<Atm> calculateOrder(@Valid @Body List<Task> serviceTasks) { //?
         return atmService.calculateOrder(serviceTasks);
     }
 }

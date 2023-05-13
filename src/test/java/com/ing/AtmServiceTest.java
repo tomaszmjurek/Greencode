@@ -2,7 +2,6 @@ package com.ing;
 
 import com.ing.atmservice.AtmService;
 import com.ing.atmservice.model.Atm;
-import com.ing.atmservice.model.Order;
 import com.ing.atmservice.model.Task;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +61,7 @@ public class AtmServiceTest {
 
         var atmsOrdered = atmService.calculateOrder(request);
 
-        var expected = new Order(List.of(
+        var expected = List.of(
                 Atm.builder()
                         .region(1)
                         .atmId(1)
@@ -91,7 +90,7 @@ public class AtmServiceTest {
                         .region(5)
                         .atmId(2)
                         .build()
-        ));
+        );
 
         Assertions.assertEquals(expected, atmsOrdered);
     }
@@ -153,7 +152,7 @@ public class AtmServiceTest {
 
         var atmsOrdered = atmService.calculateOrder(request);
 
-        var expected = new Order(List.of(
+        var expected = List.of(
                 Atm.builder()
                         .region(1)
                         .atmId(2)
@@ -194,7 +193,7 @@ public class AtmServiceTest {
                         .region(5)
                         .atmId(1)
                         .build()
-        ));
+        );
 
         Assertions.assertEquals(expected, atmsOrdered);
     }

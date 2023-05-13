@@ -1,7 +1,6 @@
 package com.ing.transactions;
 
 import com.ing.transactions.model.Account;
-import com.ing.transactions.model.Accounts;
 import com.ing.transactions.model.Transaction;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,7 @@ public class TransactionsService {
 
     private final Map<String, Account> accountsMap = new HashMap<>();
 
-    public Accounts generateDailyReport(List<Transaction> transactions) {
+    public List<Account> generateDailyReport(List<Transaction> transactions) {
         var transactionsSize = transactions.size();
         log.info("Generating daily report for {} transactions", transactionsSize);
         var timestamp = System.currentTimeMillis();
@@ -28,7 +27,7 @@ public class TransactionsService {
             updateCreditAccount(t.getCreditAccount(), t.getAmount());
         }
 
-        var accounts = new Accounts(accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList());
+        var accounts = accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList();
         accountsMap.clear();
         log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
         return accounts;
@@ -54,34 +53,5 @@ public class TransactionsService {
             creditAccount.increaseBalance(amount);
             accountsMap.replace(creditAccountNumber, creditAccount);
         }
-    }
-
-    // For testing only
-    public List<Transaction> generateInput(int size) {
-        if (size > 100000) return null;
-        var transactions = new ArrayList<Transaction>();
-        for (int i = 0; i < size; i++) {
-            var t = Transaction.builder()
-                    .debitAccount(generateString())
-                    .creditAccount(generateString())
-                    .amount(randomFloat())
-                    .build();
-            transactions.add(t);
-        }
-        return transactions;
-    }
-
-    private String generateString() {
-        Random random = new Random();
-
-        return random.ints(48, 57)
-                .limit(26)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-    }
-
-    private float randomFloat() {
-        Random random = new Random();
-        return 1.0f + random.nextFloat() * (1000000f - 0.0f);
     }
 }

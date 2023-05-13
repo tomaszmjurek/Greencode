@@ -2,7 +2,6 @@ package com.ing;
 
 import com.ing.transactions.TransactionsService;
 import com.ing.transactions.model.Account;
-import com.ing.transactions.model.Accounts;
 import com.ing.transactions.model.Transaction;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
@@ -34,9 +33,9 @@ public class TransactionsServiceTest {
                         .amount(50.10f)
                         .build());
 
-        Accounts report = transactionsService.generateDailyReport(transactions);
+        List<Account> report = transactionsService.generateDailyReport(transactions);
 
-        var expectedReport = new Accounts(List.of(
+        var expectedReport = List.of(
                 Account.builder()
                         .account("06105023389842834748547303")
                         .debitCount(0)
@@ -60,7 +59,7 @@ public class TransactionsServiceTest {
                         .debitCount(1)
                         .creditCount(1)
                         .balance(150.80f)
-                        .build()));
+                        .build());
 
         Assertions.assertEquals(expectedReport, report);
     }
