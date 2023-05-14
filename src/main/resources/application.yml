@@ -2,6 +2,7 @@ micronaut:
   application:
     name: greencode
   server:
+    port: 8080
     max-request-size: 100000000
     multipart:
       max-file-size: 100000000

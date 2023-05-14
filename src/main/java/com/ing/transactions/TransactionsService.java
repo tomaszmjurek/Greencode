@@ -28,7 +28,12 @@ public class TransactionsService {
         }
 
         var accounts = accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList();
-        accountsMap.clear();
+        try {
+            accountsMap.clear();
+        } catch (Exception e) {
+            log.error("fake error");
+            e.printStackTrace(); // trying to create vulnerability
+        }
         log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
         return accounts;
     }
