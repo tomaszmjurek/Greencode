@@ -53,6 +53,7 @@ jobs:
         config: |
           paths-ignore:
             - src 
+            - .mvn/wrapper/MavenWrapperDownloader.java
     # src contains lombok annotations which cannot be processed by codeQL
     # classes are delomboked at build, so the scan will process compiled sources
         
