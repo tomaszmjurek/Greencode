@@ -119,6 +119,9 @@
   </dependencies>
 
   <build>
+    <!-- Needed for GitHub SAST scan to work -->
+    <sourceDirectory>target/generated-sources/delombok</sourceDirectory>
+    <testSourceDirectory>target/generated-test-sources/delombok</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>io.micronaut.build</groupId>
