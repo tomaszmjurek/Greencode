@@ -5,7 +5,10 @@ import com.ing.transactions.model.Transaction;
 import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.crypto.*;
 import javax.validation.ValidationException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Slf4j
@@ -27,15 +30,46 @@ public class TransactionsService {
             updateCreditAccount(t.getCreditAccount(), t.getAmount());
         }
 
-        var accounts = accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList();
         try {
-            accountsMap.clear();
+            weakEncryption(); // testing SAST scan
         } catch (Exception e) {
-            log.error("fake error");
-            e.printStackTrace(); // trying to create vulnerability
+            log.error("Error");
         }
+
+        var accounts = accountsMap.values().stream().sorted(Comparator.comparing(Account::getAccount)).toList();
+        accountsMap.clear();
         log.info("Report generated in: {}ms", System.currentTimeMillis() - timestamp);
         return accounts;
+    }
+
+    private void weakEncryption() throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        // Generate a secret key
+        KeyGenerator keygen = KeyGenerator.getInstance("DES");
+        SecretKey desKey = keygen.generateKey();
+
+        // Create a cipher object
+        Cipher desCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+
+        // Encrypt a string
+        String plainText = "Hello World";
+        System.out.println("Original text: " + plainText);
+        desCipher.init(Cipher.ENCRYPT_MODE, desKey);
+        byte[] encryptedBytes = desCipher.doFinal(plainText.getBytes());
+        System.out.println("Encrypted bytes: " + bytesToHex(encryptedBytes));
+
+        // Decrypt the string
+        desCipher.init(Cipher.DECRYPT_MODE, desKey);
+        byte[] decryptedBytes = desCipher.doFinal(encryptedBytes);
+        System.out.println("Decrypted bytes: " + bytesToHex(decryptedBytes));
+        System.out.println("Decrypted text: " + new String(decryptedBytes));
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 
     private void updateDebitAccount(String debitAccountNumber, float amount) {
